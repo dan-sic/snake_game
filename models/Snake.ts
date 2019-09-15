@@ -43,4 +43,18 @@ export default class Snake {
       block.goToNextCell(this.direction, this.gridInstance);
     });
   }
+
+  public changeDirection(newDirection: Direction): void {
+    if (newDirection === Direction.RIGHT && this.direction === Direction.LEFT)
+      return;
+    if (newDirection === Direction.LEFT && this.direction === Direction.RIGHT)
+      return;
+
+    if (newDirection === Direction.UP && this.direction === Direction.DOWN)
+      return;
+    if (newDirection === Direction.DOWN && this.direction === Direction.UP)
+      return;
+
+    this.direction = newDirection;
+  }
 }

@@ -61,7 +61,7 @@ export default class Grid {
 
     const gridMiddleHeigth = Math.ceil(this.height / 2);
     const gridMiddleWidth = Math.ceil(this.width / 2);
-    const numberOfSnakeBlocks = 3;
+    const numberOfSnakeBlocks = 5;
 
     for (let i = 0; i < numberOfSnakeBlocks; i++) {
       const cell: Cell = this.map[gridMiddleHeigth - 1][
