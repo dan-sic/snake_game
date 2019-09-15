@@ -2,7 +2,7 @@
   "name": "snake_game",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "index.js",
   "scripts": {
     "start:compile": "tsc -w",
     "start:run": "nodemon build/index.js",
@@ -20,5 +20,8 @@
   "homepage": "https://github.com/daniel-sicinski/snake_game#readme",
   "devDependencies": {
     "concurrently": "^4.1.2"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.5"
   }
 }
