@@ -2,24 +2,27 @@ import SnakeBlock from "./SnakeBlock";
 import Cell from "./Cell";
 import Direction from "./enums/Direction";
 import Grid from "./Grid";
+import Snake from "./Snake";
 
 export default class SnakeHead extends SnakeBlock {
   private nextCell: Cell | null = null;
-  constructor(cell: Cell) {
-    super(cell);
+  constructor(cell: Cell, snake: Snake) {
+    super(cell, snake);
     this.currentCell = cell;
   }
 
   public goToNextCell(direction: Direction, gridInstance: Grid): void {
-    if (this.nextCell) {
-      this.nextCell.setSnakeBlock(this);
-      this.previousCell = this.currentCell;
-      this.currentCell.removeSnakeBlockFromCell();
-
-      this.currentCell = this.nextCell;
-
-      this.setNextCellForHeadBasedOnDirection(direction, gridInstance);
+    if (this.nextCell!.getFlyBlock()) {
+      this.snakeInstance.eatFly(this.nextCell!);
     }
+
+    this.nextCell!.setSnakeBlock(this);
+    this.previousCell = this.currentCell;
+    this.currentCell.removeSnakeBlockFromCell();
+
+    this.currentCell = this.nextCell!;
+
+    this.setNextCellForHeadBasedOnDirection(direction, gridInstance);
   }
 
   public setNextCellForHeadBasedOnDirection(

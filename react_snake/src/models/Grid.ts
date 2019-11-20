@@ -78,9 +78,9 @@ export default class Grid {
       let snakeBlock;
 
       if (i === 0) {
-        snakeBlock = new SnakeHead(cell);
+        snakeBlock = new SnakeHead(cell, snake);
       } else {
-        snakeBlock = new SnakeBlock(cell);
+        snakeBlock = new SnakeBlock(cell, snake);
       }
 
       cell.setSnakeBlock(snakeBlock);
@@ -89,7 +89,7 @@ export default class Grid {
     }
   }
 
-  insertFly() {
+  public insertFly() {
     let isSelectedCellValid = false;
 
     while (!isSelectedCellValid) {

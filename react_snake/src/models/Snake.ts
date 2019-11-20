@@ -2,12 +2,14 @@ import SnakeBlock from "./SnakeBlock";
 import Direction from "./enums/Direction";
 import Grid from "./Grid";
 import SnakeHead from "./SnakeHead";
+import Cell from "./Cell";
 
 export default class Snake {
   private static instance: Snake;
   private snakeBlocks: Array<SnakeBlock> = [];
   private direction: Direction = Direction.RIGHT;
   private gridInstance: Grid;
+  private appendNewSnakeBlock = false;
 
   private constructor(grid: Grid) {
     this.gridInstance = grid;
@@ -42,6 +44,11 @@ export default class Snake {
     this.snakeBlocks.forEach(block => {
       block.goToNextCell(this.direction, this.gridInstance);
     });
+
+    if (this.appendNewSnakeBlock) {
+      this.appendSnakeBlock();
+      this.appendNewSnakeBlock = false;
+    }
   }
 
   public changeDirection(newDirection: Direction): void {
@@ -56,5 +63,26 @@ export default class Snake {
       return;
 
     this.direction = newDirection;
+  }
+
+  public eatFly(cell: Cell) {
+    cell.removeFlyBlockFromCell();
+    this.gridInstance.insertFly();
+
+    this.appendNewSnakeBlock = true;
+  }
+
+  private appendSnakeBlock() {
+    const lastSnakeBlock = this.snakeBlocks[this.snakeBlocks.length - 1];
+    const lastSnakeBlockPreviousCell = lastSnakeBlock.getPreviousCell();
+
+    if (lastSnakeBlockPreviousCell) {
+      const newSnakeBlock = new SnakeBlock(lastSnakeBlockPreviousCell, this);
+      newSnakeBlock.setNextBlock(lastSnakeBlock);
+
+      lastSnakeBlockPreviousCell.setSnakeBlock(newSnakeBlock);
+
+      this.addSnakeBlock(newSnakeBlock);
+    }
   }
 }
