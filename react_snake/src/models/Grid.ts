@@ -2,6 +2,7 @@ import Cell from "./Cell";
 import Snake from "./Snake";
 import SnakeBlock from "./SnakeBlock";
 import SnakeHead from "./SnakeHead";
+import FlyBlock from "./FlyBlock";
 
 export default class Grid {
   private width: number;
@@ -58,6 +59,8 @@ export default class Grid {
     }
 
     this.insertSnake();
+    this.insertFly();
+    this.insertFly();
   }
 
   private insertSnake(): void {
@@ -83,6 +86,27 @@ export default class Grid {
       cell.setSnakeBlock(snakeBlock);
 
       snake.addSnakeBlock(snakeBlock);
+    }
+  }
+
+  insertFly() {
+    let isSelectedCellValid = false;
+
+    while (!isSelectedCellValid) {
+      const randomColNum: number = Math.floor(Math.random() * (this.width - 1));
+      const randomRowNum: number = Math.floor(
+        Math.random() * (this.height - 1)
+      );
+
+      const selectedCell: Cell = this.map[randomRowNum][randomColNum];
+
+      isSelectedCellValid =
+        selectedCell.getSnakeBlock() === null &&
+        selectedCell.getFlyBlock() === null;
+
+      if (isSelectedCellValid) {
+        selectedCell.setFlyBlock(new FlyBlock(selectedCell));
+      }
     }
   }
 }
