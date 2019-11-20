@@ -9,6 +9,7 @@ import Direction from "./models/enums/Direction";
 class App extends React.Component<{}, { map: Cell[][] }> {
   grid: Grid;
   snake: Snake;
+  snakeMovementTimeout: any;
 
   constructor(props: {}) {
     super(props);
@@ -24,12 +25,17 @@ class App extends React.Component<{}, { map: Cell[][] }> {
   }
 
   initializeSnakeMovement() {
-    setInterval(() => {
-      // this.printGrid();
-      // this.changeDirectionRandomly();
-      this.snake.move();
-      this.setState({ map: this.grid.getMap() });
-    }, 150);
+    let snakeSpeed = this.snake.getSnakeSpeed();
+
+    let context = this;
+    this.snakeMovementTimeout = setTimeout(function moveSnake() {
+      context.snake.move();
+      context.setState({ map: context.grid.getMap() });
+
+      snakeSpeed = context.snake.getSnakeSpeed();
+
+      context.snakeMovementTimeout = setTimeout(moveSnake, snakeSpeed);
+    }, snakeSpeed);
   }
 
   listenToUserKeboardEvents() {
@@ -63,10 +69,16 @@ class App extends React.Component<{}, { map: Cell[][] }> {
       for (let j = 0; j < 20; j++) {
         const cell: Cell = gameMap[i][j];
 
-        if (!cell.getSnakeBlock()) {
+        const isEmptyCell = !cell.getSnakeBlock() && !cell.getFlyBlock();
+        const isCellWithSnake = cell.getSnakeBlock();
+        const isCellWithFly = cell.getFlyBlock();
+
+        if (isEmptyCell) {
           tiles.push(<Tile key={cell.getId()} color='yellow' />);
-        } else {
+        } else if (isCellWithSnake) {
           tiles.push(<Tile key={cell.getId()} color='red' />);
+        } else if (isCellWithFly) {
+          tiles.push(<Tile key={cell.getId()} color='black' />);
         }
       }
     }

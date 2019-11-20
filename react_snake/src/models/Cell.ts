@@ -1,10 +1,12 @@
 import SnakeBlock from "./SnakeBlock";
+import FlyBlock from "./FlyBlock";
 
 export default class Cell {
   private id: number;
   private x: number;
   private y: number;
   private snakeBlock: SnakeBlock | null = null;
+  private flyBlock: FlyBlock | null = null;
 
   public constructor(x: number, y: number, id: number) {
     this.x = x;
@@ -28,8 +30,20 @@ export default class Cell {
     return this.snakeBlock;
   }
 
+  public setFlyBlock(fb: FlyBlock): void {
+    this.flyBlock = fb;
+  }
+
+  public getFlyBlock(): FlyBlock | null {
+    return this.flyBlock;
+  }
+
   public removeSnakeBlockFromCell(): void {
     this.snakeBlock = null;
+  }
+
+  public removeFlyBlockFromCell(): void {
+    this.flyBlock = null;
   }
 
   public getId(): number {
