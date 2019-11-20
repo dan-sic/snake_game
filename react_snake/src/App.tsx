@@ -9,6 +9,7 @@ import Direction from "./models/enums/Direction";
 class App extends React.Component<{}, { map: Cell[][] }> {
   grid: Grid;
   snake: Snake;
+  snakeMovementTimeout: any;
 
   constructor(props: {}) {
     super(props);
@@ -24,10 +25,17 @@ class App extends React.Component<{}, { map: Cell[][] }> {
   }
 
   initializeSnakeMovement() {
-    setInterval(() => {
-      this.snake.move();
-      this.setState({ map: this.grid.getMap() });
-    }, 150);
+    let snakeSpeed = this.snake.getSnakeSpeed();
+
+    let context = this;
+    this.snakeMovementTimeout = setTimeout(function moveSnake() {
+      context.snake.move();
+      context.setState({ map: context.grid.getMap() });
+
+      snakeSpeed = context.snake.getSnakeSpeed();
+
+      context.snakeMovementTimeout = setTimeout(moveSnake, snakeSpeed);
+    }, snakeSpeed);
   }
 
   listenToUserKeboardEvents() {

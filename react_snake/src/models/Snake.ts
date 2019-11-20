@@ -10,6 +10,7 @@ export default class Snake {
   private direction: Direction = Direction.RIGHT;
   private gridInstance: Grid;
   private appendNewSnakeBlock = false;
+  private snakeSpeed = 150;
 
   private constructor(grid: Grid) {
     this.gridInstance = grid;
@@ -21,6 +22,10 @@ export default class Snake {
     }
 
     return this.instance;
+  }
+
+  public getSnakeSpeed(): number {
+    return this.snakeSpeed;
   }
 
   public addSnakeBlock(block: SnakeBlock): void {
@@ -47,6 +52,9 @@ export default class Snake {
 
     if (this.appendNewSnakeBlock) {
       this.appendSnakeBlock();
+
+      this.snakeSpeed -= 2;
+
       this.appendNewSnakeBlock = false;
     }
   }
