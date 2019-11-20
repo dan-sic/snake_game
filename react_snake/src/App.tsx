@@ -4,18 +4,58 @@ import { Tile } from "./components/Tile";
 import Grid from "./models/Grid";
 import Snake from "./models/Snake";
 import Cell from "./models/Cell";
+import Direction from "./models/enums/Direction";
 
-class App extends React.Component {
-  state: { grid: Grid } = {
-    grid: Grid.getInstance(20, 20)
-  };
+class App extends React.Component<{}, { map: Cell[][] }> {
+  grid: Grid;
+  snake: Snake;
+
+  constructor(props: {}) {
+    super(props);
+
+    this.grid = Grid.getInstance(20, 20);
+    this.snake = Snake.getInstance(this.grid);
+    this.state = { map: this.grid.getMap() };
+  }
 
   componentDidMount() {
-    this.setState({ ...this.state, snake: Snake.getInstance(this.state.grid) });
+    this.initializeSnakeMovement();
+    this.listenToUserKeboardEvents();
+  }
+
+  initializeSnakeMovement() {
+    setInterval(() => {
+      // this.printGrid();
+      // this.changeDirectionRandomly();
+      this.snake.move();
+      this.setState({ map: this.grid.getMap() });
+    }, 150);
+  }
+
+  listenToUserKeboardEvents() {
+    document.addEventListener("keypress", e => {
+      if (e.key === "w" || e.key === "ArrowUp") {
+        this.snake.changeDirection(Direction.UP);
+      }
+
+      if (e.key === "s" || e.key === "ArrowDown") {
+        this.snake.changeDirection(Direction.DOWN);
+      }
+
+      if (e.key === "a" || e.key === "ArrowLeft") {
+        this.snake.changeDirection(Direction.LEFT);
+      }
+
+      if (e.key === "d" || e.key === "ArrowRight") {
+        this.snake.changeDirection(Direction.RIGHT);
+      }
+
+      this.setState({ map: this.grid.getMap() });
+    });
   }
 
   generateTiles() {
-    const gameMap = this.state.grid.getMap();
+    const gameMap = this.state.map;
 
     const tiles = [];
 
