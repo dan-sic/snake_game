@@ -5,17 +5,33 @@ import Grid from "./models/Grid";
 import Snake from "./models/Snake";
 import Cell from "./models/Cell";
 
-class App extends React.Component {
-  state: { grid: Grid } = {
-    grid: Grid.getInstance(20, 20)
-  };
+class App extends React.Component<{}, { map: Cell[][] }> {
+  grid: Grid;
+  snake: Snake;
+
+  constructor(props: {}) {
+    super(props);
+
+    this.grid = Grid.getInstance(20, 20);
+    this.snake = Snake.getInstance(this.grid);
+    this.state = { map: this.grid.getMap() };
+  }
 
   componentDidMount() {
-    this.setState({ ...this.state, snake: Snake.getInstance(this.state.grid) });
+    this.initializeSnakeMovement();
+  }
+
+  initializeSnakeMovement() {
+    setInterval(() => {
+      // this.printGrid();
+      // this.changeDirectionRandomly();
+      this.snake.move();
+      this.setState({ map: this.grid.getMap() });
+    }, 150);
   }
 
   generateTiles() {
-    const gameMap = this.state.grid.getMap();
+    const gameMap = this.state.map;
 
     const tiles = [];
 
