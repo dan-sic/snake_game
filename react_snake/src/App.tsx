@@ -25,8 +25,6 @@ class App extends React.Component<{}, { map: Cell[][] }> {
 
   initializeSnakeMovement() {
     setInterval(() => {
-      // this.printGrid();
-      // this.changeDirectionRandomly();
       this.snake.move();
       this.setState({ map: this.grid.getMap() });
     }, 150);
@@ -63,10 +61,16 @@ class App extends React.Component<{}, { map: Cell[][] }> {
       for (let j = 0; j < 20; j++) {
         const cell: Cell = gameMap[i][j];
 
-        if (!cell.getSnakeBlock()) {
+        const isEmptyCell = !cell.getSnakeBlock() && !cell.getFlyBlock();
+        const isCellWithSnake = cell.getSnakeBlock();
+        const isCellWithFly = cell.getFlyBlock();
+
+        if (isEmptyCell) {
           tiles.push(<Tile key={cell.getId()} color='yellow' />);
-        } else {
+        } else if (isCellWithSnake) {
           tiles.push(<Tile key={cell.getId()} color='red' />);
+        } else if (isCellWithFly) {
+          tiles.push(<Tile key={cell.getId()} color='black' />);
         }
       }
     }
