@@ -6,6 +6,7 @@ import Snake from "./Snake";
 
 export default class SnakeHead extends SnakeBlock {
   private nextCell: Cell | null = null;
+
   constructor(cell: Cell, snake: Snake) {
     super(cell, snake);
     this.currentCell = cell;
@@ -14,6 +15,10 @@ export default class SnakeHead extends SnakeBlock {
   public goToNextCell(direction: Direction, gridInstance: Grid): void {
     if (this.nextCell!.getFlyBlock()) {
       this.snakeInstance.eatFly(this.nextCell!);
+    }
+
+    if (this.nextCell!.getSnakeBlock()) {
+      this.snakeInstance.crashIntoTail();
     }
 
     this.nextCell!.setSnakeBlock(this);

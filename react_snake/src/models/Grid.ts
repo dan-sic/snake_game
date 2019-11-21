@@ -44,6 +44,11 @@ export default class Grid {
     return this.map;
   }
 
+  public restartGrid() {
+    this.map = [];
+    this.generateGrid();
+  }
+
   private generateGrid(): void {
     let cellId: number = 1;
 
