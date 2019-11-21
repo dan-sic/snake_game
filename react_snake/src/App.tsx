@@ -5,8 +5,11 @@ import Grid from "./models/Grid";
 import Snake from "./models/Snake";
 import Cell from "./models/Cell";
 import Direction from "./models/enums/Direction";
+import GameMenu from "./components/GameMenu";
 
 class App extends React.Component<{}, { map: Cell[][] }> {
+  readonly GRID_HEIGHT = 40;
+  readonly GRID_WIDTH = 40;
   grid: Grid;
   snake: Snake;
   snakeMovementTimeout: any;
@@ -14,7 +17,7 @@ class App extends React.Component<{}, { map: Cell[][] }> {
   constructor(props: {}) {
     super(props);
 
-    this.grid = Grid.getInstance(20, 20);
+    this.grid = Grid.getInstance(this.GRID_HEIGHT, this.GRID_WIDTH);
     this.snake = Snake.getInstance(this.grid);
     this.state = { map: this.grid.getMap() };
   }
@@ -60,13 +63,13 @@ class App extends React.Component<{}, { map: Cell[][] }> {
     });
   }
 
-  generateTiles() {
+  generateTiles: () => JSX.Element[] = () => {
     const gameMap = this.state.map;
 
-    const tiles = [];
+    const tiles: JSX.Element[] = [];
 
-    for (let i = 0; i < 20; i++) {
-      for (let j = 0; j < 20; j++) {
+    for (let i = 0; i < this.GRID_HEIGHT; i++) {
+      for (let j = 0; j < this.GRID_WIDTH; j++) {
         const cell: Cell = gameMap[i][j];
 
         const isEmptyCell = !cell.getSnakeBlock() && !cell.getFlyBlock();
