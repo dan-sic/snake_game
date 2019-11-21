@@ -23,7 +23,6 @@ export const InstructionsPanel: React.SFC<InstructionsPanelProps> = ({
           </div>
         </div>
       );
-      break;
     case GameState.PAUSED:
       return (
         <div className='instructions-panel'>
@@ -33,7 +32,6 @@ export const InstructionsPanel: React.SFC<InstructionsPanelProps> = ({
           </div>
         </div>
       );
-      break;
     case GameState.GAME_OVER:
       return (
         <div className='instructions-panel'>
@@ -46,7 +44,6 @@ export const InstructionsPanel: React.SFC<InstructionsPanelProps> = ({
           </div>
         </div>
       );
-      break;
     default:
       return null;
   }

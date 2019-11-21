@@ -47,7 +47,7 @@ export default class GameMenu extends Component<
     this.listenToUserKeboardEvents();
   }
 
-  initializeGameLoop() {
+  initializeGameLoop(): void {
     this.setState({ ...this.state, gameState: GameState.PLAYING });
 
     let snakeSpeed = this.snake.getSnakeSpeed();
@@ -72,17 +72,17 @@ export default class GameMenu extends Component<
     }, snakeSpeed);
   }
 
-  gameOver() {
+  gameOver(): void {
     clearTimeout(this.gameLoop);
     this.setState({ ...this.state, gameState: GameState.GAME_OVER });
   }
 
-  pauseGameLoop() {
+  pauseGameLoop(): void {
     clearTimeout(this.gameLoop);
     this.setState({ ...this.state, gameState: GameState.PAUSED });
   }
 
-  toogleGameLoop() {
+  toogleGameLoop(): void {
     if (this.state.gameState === GameState.PLAYING) {
       this.pauseGameLoop();
     } else if (this.state.gameState === GameState.GAME_OVER) {
@@ -93,28 +93,25 @@ export default class GameMenu extends Component<
     }
   }
 
-  listenToUserKeboardEvents() {
+  listenToUserKeboardEvents(): void {
     document.addEventListener("keypress", e => {
-      if (e.code === "Space") {
-        this.toogleGameLoop();
+      switch (e.code) {
+        case "Space":
+          this.toogleGameLoop();
+          break;
+        case "KeyW":
+          this.snake.changeDirection(Direction.UP);
+          break;
+        case "KeyS":
+          this.snake.changeDirection(Direction.DOWN);
+          break;
+        case "KeyA":
+          this.snake.changeDirection(Direction.LEFT);
+          break;
+        case "KeyD":
+          this.snake.changeDirection(Direction.RIGHT);
+          break;
       }
-
-      if (e.code === "KeyW" || e.code === "ArrowUp") {
-        this.snake.changeDirection(Direction.UP);
-      }
-
-      if (e.code === "KeyS" || e.code === "ArrowDown") {
-        this.snake.changeDirection(Direction.DOWN);
-      }
-
-      if (e.code === "KeyA" || e.code === "ArrowLeft") {
-        this.snake.changeDirection(Direction.LEFT);
-      }
-
-      if (e.code === "KeyD" || e.code === "ArrowRight") {
-        this.snake.changeDirection(Direction.RIGHT);
-      }
-
       this.setState({ map: this.grid.getMap() });
     });
   }
