@@ -84,10 +84,15 @@ class App extends React.Component<{}, { map: Cell[][] }> {
     }
 
     return tiles;
-  }
+  };
 
   render() {
-    return <div className='grid'>{this.generateTiles()}</div>;
+    return (
+      <React.Fragment>
+        <h1>Snake</h1>
+        <GameMenu generateTiles={this.generateTiles} />
+      </React.Fragment>
+    );
   }
 }
 
