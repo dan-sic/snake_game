@@ -10,6 +10,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background-color: rgb(0, 170, 0);
 }
 
 code {
@@ -17,7 +19,16 @@ code {
     monospace;
 }
 
+.grid-container {
+  background-color: rgb(0, 129, 0);
+  box-shadow: 0 1.5rem 4rem rgba(black, 0.15);
+}
+
 .grid {
+  background-image: url("./green_background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   background-color: green;
   min-width: 200px;
   height: 200px;

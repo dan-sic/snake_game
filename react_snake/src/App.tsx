@@ -74,11 +74,11 @@ class App extends React.Component<{}, { map: Cell[][] }> {
         const isCellWithFly = cell.getFlyBlock();
 
         if (isEmptyCell) {
-          tiles.push(<Tile key={cell.getId()} color='yellow' />);
+          tiles.push(<Tile key={cell.getId()} color='transparent' />);
         } else if (isCellWithSnake) {
-          tiles.push(<Tile key={cell.getId()} color='red' />);
-        } else if (isCellWithFly) {
           tiles.push(<Tile key={cell.getId()} color='black' />);
+        } else if (isCellWithFly) {
+          tiles.push(<Tile key={cell.getId()} color='grey' />);
         }
       }
     }
