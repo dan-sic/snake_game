@@ -3,17 +3,20 @@ import Direction from "./enums/Direction";
 import Grid from "./Grid";
 import SnakeHead from "./SnakeHead";
 import Cell from "./Cell";
+import Game from "./Game";
 
 export default class Snake {
   private static instance: Snake;
   private snakeBlocks: Array<SnakeBlock> = [];
   private direction: Direction = Direction.RIGHT;
   private gridInstance: Grid;
+  private gameInstance: Game;
   private appendNewSnakeBlock = false;
   private snakeSpeed = 130;
 
   private constructor(grid: Grid) {
     this.gridInstance = grid;
+    this.gameInstance = Game.getInstance();
   }
 
   public static getInstance(grid: Grid): Snake {
@@ -74,10 +77,26 @@ export default class Snake {
   }
 
   public eatFly(cell: Cell) {
+    this.gameInstance.addPlayerPoint();
+
     cell.removeFlyBlockFromCell();
     this.gridInstance.insertFly();
 
     this.appendNewSnakeBlock = true;
+  }
+
+  public crashIntoTail() {
+    this.gameInstance.deductPlayerLife();
+
+    this.resetSnake();
+
+    this.gridInstance.restartGrid();
+  }
+
+  private resetSnake() {
+    this.snakeBlocks = [];
+    this.direction = Direction.RIGHT;
+    this.snakeSpeed = 130;
   }
 
   private appendSnakeBlock() {
