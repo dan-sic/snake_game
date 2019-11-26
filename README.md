@@ -1,7 +1,9 @@
 # snake_game
 Snake game in TypeScript / React
 
+Link to the game:
 
+https://snake-game-ts.herokuapp.com
 
 ## Overview
 This is a personal pet project - a classic Snake game build with Typescript and React. Game has all major features of snake game:
